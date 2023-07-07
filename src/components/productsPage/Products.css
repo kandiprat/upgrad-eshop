@@ -1,0 +1,17 @@
+.products-container {
+    width: 1200px;
+    padding: 10px 20px;
+    margin: 20px auto;
+    height: 100%;
+  }
+  .category-section {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .sort-by-dropdown {
+    min-width: 150px !important;
+    max-width: 250px;
+  }
+  .products-grid{
+    margin: 10px 0
+  }
