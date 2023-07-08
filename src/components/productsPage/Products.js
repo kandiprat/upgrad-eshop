@@ -102,7 +102,7 @@ function Products() {
         })
         .catch(function (error) {
           alert(
-            `Error: There was an issue in deleting product, please try again later.`
+            `Please try again later.`
           );
         });
     }
@@ -169,7 +169,7 @@ function Products() {
         </div>
       ) : (
         <Typography gutterBottom variant="body1" component="p">
-          There are no products available.
+          No products available.
         </Typography>
       )}
     </Fragment>

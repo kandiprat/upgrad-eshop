@@ -1,0 +1,55 @@
+.center {
+   text-align: center;
+}
+.order-container1 {
+   width: 1200px;
+   margin: 50px auto;
+}
+.product-details,
+.step-container1 > div {
+   padding: 10px 20px;
+}
+.step-container1 {
+   padding: 10px 20px;
+   width: 768px;
+   height: 100%;
+   margin: 50px auto;
+   display: flex;
+   gap: 2;
+}
+.step-container2 {
+   padding: 10px 20px;
+   margin: 50px auto;
+   width: 500px;
+   height: 100%;
+   display: flex;
+   gap: 2;
+}
+.step-container2 form {
+   width: 100%;
+}
+.step-container2 .orSeparator {
+   text-align: center;
+   margin: 30px 0;
+}  
+.step-container3 {
+   padding: 10px 20px;
+   margin: 50px auto;
+   height: 100%;
+   width: 768px;
+   display: flex;
+   justify-content: space-between;
+}
+.container-with-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 50px auto;
+ }
+ .border-style{
+   padding-left: 16px;
+   border-left: 1px solid rgba(0, 0, 0, 0.12);
+ }

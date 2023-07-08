@@ -56,13 +56,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
             </div>
             {isAdmin && (
               <div>
-                <IconButton onClick={handleDeleteCall}>
-                  <DeleteIcon />
-                </IconButton>
                 <IconButton
                   onClick={() => navigate(`/edit-product/${productData.id}`)}
                 >
                   <EditIcon />
+                </IconButton>
+                <IconButton onClick={handleDeleteCall}>
+                  <DeleteIcon />
                 </IconButton>
               </div>
             )}

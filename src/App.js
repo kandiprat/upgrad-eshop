@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { AuthContextProvider } from "../src/common/AuthContext";
 import Products from "../src/components/productsPage/Products";
 import ProductDetails from "../src/components/productDetails/ProductDetails";
+import CreateOrder from "../src/components/createOrder/CreateOrder";
 
 const appTheme = createTheme({
   palette: {
@@ -27,7 +28,8 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route exact path="/" element={<Navigate to="/login" />} />
             <Route exact path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetails />} />            
+            <Route path="/products/:id" element={<ProductDetails />} />    
+            <Route path="/order" element={<CreateOrder />} />        
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
