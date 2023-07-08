@@ -74,7 +74,7 @@ function Products() {
       newData.sort((a, b) => a.price - b.price);
     } else if (keyString === "highToLow") {
       newData.sort((a, b) => b.price - a.price);
-    }
+    } 
   
     setData(newData);
     setSortBy(keyString);
@@ -155,7 +155,7 @@ function Products() {
             </FormControl>
           </div>
 
-          <Grid container spacing={5} className="products-grid">
+          <Grid container spacing={5} style={{ margin: "10px 0" }}>
             {data.map((item) => (
               <Cards
                 key={item.id}

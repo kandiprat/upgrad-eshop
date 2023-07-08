@@ -1,0 +1,24 @@
+.category-section {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  text-align: center;
+}
+.container-name {
+    display: flex;
+    justify-content: left;
+  }
+.container-details {
+  width: 768px;
+  padding: 10px 20px;
+  margin: 50px auto;
+  height: 100%;
+  display: flex;
+  gap: 2;
+}
+.container-details .child-divs {
+  padding: 10px 20px;
+}
+
+
+  
+  
