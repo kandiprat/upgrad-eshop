@@ -16,7 +16,7 @@ function Products() {
   const [searchTerm, setSearchTerm] = useState("");
   const [originalData, setOriginalData] = useState([]);
   const [category, setCategory] = useState("all");
-  const [sortBy, setSortBy] = useState("default");
+  const [sortBy, setSortBy] = useState("");
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -83,15 +83,14 @@ function Products() {
   const handleSortChange = (event) => {
     const keyString = event.target.value;
     let newData = [...originalData];
-
-    if (keyString === "default") {
-      newData.sort((a, b) => new Date(a.date) - new Date(b.date));
-    } else if (keyString === "new") {
+   if (keyString === "new") {
       newData.sort((a, b) => new Date(b.date) - new Date(a.date)).reverse();
     } else if (keyString === "lowToHigh") {
       newData.sort((a, b) => a.price - b.price);
     } else if (keyString === "highToLow") {
       newData.sort((a, b) => b.price - a.price);
+    } else {
+        newData.sort((a, b) => new Date(a.date) - new Date(b.date));
     }
 
     setData(newData);
@@ -177,9 +176,13 @@ function Products() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value="Select..."
+                value= {sortBy}
                 onChange={handleSortChange}
+                displayEmpty
               >
+                <MenuItem value="" disabled>
+                  Select...
+                </MenuItem>
                 <MenuItem value={"default"}>Default</MenuItem>
                 <MenuItem value={"highToLow"}>Price: High to Low</MenuItem>
                 <MenuItem value={"lowToHigh"}>Price: Low to High</MenuItem>
