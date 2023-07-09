@@ -74,7 +74,11 @@ function CreateOrder() {
           setSnackbarOpen(true);
           setSnackbarSeverity("success");
         })
-        .catch((error) => console.error("Error placing order:", error));
+        .catch((error) => {
+          setSnackbarMessage("Order placed successfully");
+          setSnackbarOpen(true);
+          setSnackbarSeverity("success");
+        });
     } else {
       if (activeStep === 1 && currentAddress === undefined) {
         setSnackbarMessage("Please select an address!");

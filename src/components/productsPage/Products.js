@@ -173,12 +173,11 @@ function Products() {
 
           <div>
             <FormControl className="sort-by-dropdown">
-              <InputLabel id="sort-select-label">Sort By</InputLabel>
+              <label>Sort By:</label>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={sortBy}
-                label="Sort"
+                value="Select..."
                 onChange={handleSortChange}
               >
                 <MenuItem value={"default"}>Default</MenuItem>
