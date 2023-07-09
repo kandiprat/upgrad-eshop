@@ -31,58 +31,58 @@ function NavigationBar(props) {
               disableRipple
               onClick={() => navigate(isLogged ? "/products" : "/login")}
             >
-                <ShoppingCartIcon />
-                <Typography variant="body1" component="span">
-                    upGrad E-Shop
-                </Typography>
+              <ShoppingCartIcon />
+              <Typography variant="body1" component="span">
+                upGrad E-Shop
+              </Typography>
             </IconButton>
           </Grid>
-          
+
           <Grid item xs={3}>
-          {isLogged && (
-            <SearchBar searchText={searchTerm} onSearchChange={onSearchChange} />
+            {isLogged && (
+              <SearchBar searchText={searchTerm} onSearchChange={onSearchChange} />
             )}
           </Grid>
           <Grid item xs={4} textAlign="right">
             <Box display="flex" justifyContent="flex-end" gap={2}>
               {isLogged ? (
                 <>
-                <Box display="flex" alignItems="center" gap={2}>
-                  <Link
-                    to = "/products"
-                    color="inherit"
-                    variant="text"
-                    underline={true}
-                    component={Button}
-                    style={{ color: 'white' }} 
-                  >
-                    Home
-                  </Link>
-                  {isAdmin && (
+                  <Box display="flex" alignItems="center" gap={2}>
                     <Link
-                      to = "/add-product"
+                      to="/products"
                       color="inherit"
                       variant="text"
                       underline={true}
                       component={Button}
-                      style={{ color: 'white' }}                     
+                      style={{ color: 'white' }}
                     >
-                      Add Product
+                      Home
                     </Link>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleLogout}
-                  >
-                    LOGOUT
-                  </Button>
-                </Box>
+                    {isAdmin && (
+                      <Link
+                        to="/add-product"
+                        color="inherit"
+                        variant="text"
+                        underline={true}
+                        component={Button}
+                        style={{ color: 'white' }}
+                      >
+                        Add Product
+                      </Link>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleLogout}
+                    >
+                      LOGOUT
+                    </Button>
+                  </Box>
                 </>
               ) : (
                 <>
                   <Link
-                    to = "/login"
+                    to="/login"
                     color="inherit"
                     variant="text"
                     underline={true}

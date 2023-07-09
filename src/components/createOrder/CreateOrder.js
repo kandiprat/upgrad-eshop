@@ -4,7 +4,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { AuthContext } from "../../common/AuthContext";
 import axios from "axios";
-import {Box, Button, TextField, Step, StepLabel, Stepper, Typography, Alert, Grid, Divider } from "@mui/material";
+import { Box, Button, TextField, Step, StepLabel, Stepper, Typography, Alert, Grid, Divider } from "@mui/material";
 import NavigationBar from "../navigationBar/NavigationBar";
 import Snackbar from "@mui/material/Snackbar";
 
@@ -44,8 +44,8 @@ function CreateOrder() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
     if (snackbarSeverity === "success") {
-        navigate("/products");
-      }
+      navigate("/products");
+    }
   };
 
   const handleBack = () => {
@@ -148,9 +148,9 @@ function CreateOrder() {
             .catch((error) => console.error("Error fetching data:", error));
         })
         .catch(() => {
-            setSnackbarMessage("Please check address format");
-            setSnackbarSeverity("error");
-            setSnackbarOpen(true);
+          setSnackbarMessage("Please check address format");
+          setSnackbarSeverity("error");
+          setSnackbarOpen(true);
         }
         );
     }
@@ -337,32 +337,32 @@ function CreateOrder() {
               </form >
             </div>
           ) : (
-            <Box className = "container-with-divider">
+            <Box className="container-with-divider">
               <Grid container spacing={2}>
-              <Grid item xs={8}>
-                {renderProductDetails()}
+                <Grid item xs={8}>
+                  {renderProductDetails()}
+                </Grid>
+                <Grid item xs={3} className="border-style">
+                  <Typography gutterBottom variant="h5" component="p">
+                    Address Details:
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    {currentAddress.name}
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    Contact Number: {currentAddress.contactNumber}
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    {`${currentAddress.street}, ${currentAddress.city}`}
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    {currentAddress.state}
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    {currentAddress.zipcode}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={3} className="border-style">
-                <Typography gutterBottom variant="h5" component="p">
-                  Address Details:
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  {currentAddress.name}
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  Contact Number: {currentAddress.contactNumber}
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  {`${currentAddress.street}, ${currentAddress.city}`}
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  {currentAddress.state}
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  {currentAddress.zipcode}
-                </Typography>
-                </Grid>
-                </Grid>
             </Box>
           )}
           <Box
@@ -392,20 +392,20 @@ function CreateOrder() {
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-    >
-    <Alert
-        elevation={6}
-        variant="filled"
-        onClose={handleSnackbarClose}
-        severity={snackbarSeverity}
-    >
-        {snackbarMessage}
-    </Alert>
-    </Snackbar>
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   ) : (
     <Navigate to="/login" />
   );
 }
 
-export default  CreateOrder;
+export default CreateOrder;

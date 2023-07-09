@@ -1,11 +1,10 @@
 import { Button, Grid, IconButton, Typography } from "@mui/material";
-import { Card, CardContent, CardActions, CardMedia } from "@mui/material";
+import { Card, CardContent, CardActions, CardMedia, Snackbar, Alert } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
   
   function Cards(props) {
-    const { key, productData, isAdmin, handleDeleteCall, navigate } = props;
+    const { key, productData, isAdmin, handleDeleteCall, navigate} = props;
   
     return (
       <Grid key={key} item xs={4}>

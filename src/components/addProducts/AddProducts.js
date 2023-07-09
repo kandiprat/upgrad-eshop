@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
-import { Box, Button, TextField, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, TextField, CircularProgress, Typography, Snackbar, Alert } from "@mui/material";
 import { AuthContext } from "../../common/AuthContext";
 import axios from "axios";
 import NavigationBar from "../navigationBar/NavigationBar";
@@ -26,6 +26,17 @@ function AddProducts() {
   const [availableItemsError, setAvailableItemsError] = useState(false);
   const [priceError, setPriceError] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+    if (snackbarSeverity === "success") {
+        navigate("/products");
+      }
+  };
 
   useEffect(() => {
     axios
@@ -38,7 +49,9 @@ function AddProducts() {
         setCategoryList(response.data);
       })
       .catch(function () {
-        alert("Unable to retrieve categories list.");
+        setSnackbarMessage("Unable to retrieve categories list.");
+        setSnackbarOpen(true);
+        setSnackbarSeverity("error");
       });
   }, []);
 
@@ -62,9 +75,11 @@ function AddProducts() {
           setImageUrl(data.imageUrl);
           setProductDescription(data.description);
         })
-        .catch(() =>
-          alert("Unable to retrieve product details.")
-        )
+        .catch( function () {
+          setSnackbarMessage("Unable to retrieve products list.");
+          setSnackbarOpen(true);
+          setSnackbarSeverity("error");
+        })
         .finally(() => setDataLoading(false));
     }
   }, [isEditMode, id, authToken]);
@@ -111,11 +126,14 @@ function AddProducts() {
             }
           )
           .then(function () {
-            alert(`Product ${name} modified successfully`);
-            navigate("/products");
+            setSnackbarMessage(`Product ${name} modified successfully`);
+            setSnackbarOpen(true);
+            setSnackbarSeverity("success");
           })
           .catch(function () {
-            alert(`Error in modifying product ${name}.`);
+            setSnackbarMessage(`Error in modifying product ${name}.`);
+            setSnackbarOpen(true);
+            setSnackbarSeverity("error");
           });
       } else {
         axios
@@ -137,11 +155,14 @@ function AddProducts() {
             }
           )
           .then(function () {
-            alert(`Product ${name} added successfully!`);
-            navigate("/products");
+            setSnackbarMessage(`Product ${name} added successfully!`);
+            setSnackbarOpen(true);
+            setSnackbarSeverity("success");
           })
           .catch(function () {
-            alert(`Error while adding product: ${name}.`);
+            setSnackbarMessage(`Error while adding product: ${name}.`);
+            setSnackbarOpen(true);
+            setSnackbarSeverity("error");
           });
       }
     }
@@ -259,6 +280,21 @@ function AddProducts() {
             </Button>
           </form>
         )}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+        <Alert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+        >
+        {snackbarMessage}
+        </Alert>
+        </Snackbar>
       </div>
     </div>
   );

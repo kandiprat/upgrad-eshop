@@ -2,8 +2,9 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../navigationBar/NavigationBar";
 import Cards from "../cards/Cards";
-import { FormControl, ToggleButtonGroup, ToggleButton, Grid, InputLabel, MenuItem, Select, Typography} from "@mui/material";
-import {Dialog, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { FormControl, ToggleButtonGroup, ToggleButton, Grid, InputLabel } from "@mui/material";
+import { Dialog, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Snackbar, Alert, MenuItem, Select, Typography } from '@mui/material';
 import axios from "axios";
 import { AuthContext } from "../../common/AuthContext";
 import "./Products.css";
@@ -20,6 +21,17 @@ function Products() {
   const [categoryList, setCategoryList] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+    if (snackbarSeverity === "success") {
+      navigate("/products");
+    }
+  };
 
   const triggerDataFetch = () => {
     if (authToken !== null) {
@@ -33,7 +45,9 @@ function Products() {
           setCategoryList(response.data);
         })
         .catch(function () {
-          alert("Unable to retrieve categories list.");
+          setSnackbarMessage("Unable to retrieve categories list.");
+          setSnackbarOpen(true);
+          setSnackbarSeverity("error");
         });
       axios
         .get("http://localhost:8080/api/products", {
@@ -69,7 +83,7 @@ function Products() {
   const handleSortChange = (event) => {
     const keyString = event.target.value;
     let newData = [...originalData];
-  
+
     if (keyString === "default") {
       newData.sort((a, b) => new Date(a.date) - new Date(b.date));
     } else if (keyString === "new") {
@@ -78,12 +92,12 @@ function Products() {
       newData.sort((a, b) => a.price - b.price);
     } else if (keyString === "highToLow") {
       newData.sort((a, b) => b.price - a.price);
-    } 
-  
+    }
+
     setData(newData);
     setSortBy(keyString);
-  };  
-  
+  };
+
 
   const handleSearchChange = (event) => {
     const newData = originalData.filter((item) =>
@@ -107,9 +121,14 @@ function Products() {
       })
       .then(function () {
         triggerDataFetch();
+        setSnackbarMessage("Order deleted successfully!");
+        setSnackbarOpen(true);
+        setSnackbarSeverity("success");
       })
       .catch(function (error) {
-        alert("Please try again later.");
+        setSnackbarMessage("Please try again later.");
+        setSnackbarOpen(true);
+        setSnackbarSeverity("error");
       });
 
     // Reset the confirmation state
@@ -180,38 +199,53 @@ function Products() {
                 navigate={navigate}
               />
             ))}
-              <Dialog
-                open={showConfirmation}
-                onClose={handleDeleteCancelled}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+            <Dialog
+              open={showConfirmation}
+              onClose={handleDeleteCancelled}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                Confirm deletion of product!
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Are you sure you want to delete the product?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={handleDeleteConfirmed}
+                  autoFocus
+                  variant="contained"
+                  color="primary"
+                >
+                  OK
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleDeleteCancelled}
+                >
+                  Cancel
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={3000}
+              onClose={handleSnackbarClose}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <Alert
+                elevation={6}
+                variant="filled"
+                onClose={handleSnackbarClose}
+                severity={snackbarSeverity}
               >
-                <DialogTitle id="alert-dialog-title">
-                  Confirm deletion of product!
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to delete the product?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button 
-                    onClick={handleDeleteConfirmed} 
-                    autoFocus 
-                    variant="contained"
-                    color="primary"
-                  >
-                    OK
-                  </Button>
-                  <Button 
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleDeleteCancelled}
-                  >
-                    Cancel
-                  </Button>
-                </DialogActions>
-              </Dialog>
+                {snackbarMessage}
+              </Alert>
+            </Snackbar>
           </Grid>
         </div>
       ) : (

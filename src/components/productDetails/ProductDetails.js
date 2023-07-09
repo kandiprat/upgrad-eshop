@@ -85,7 +85,7 @@ function ProductDetails() {
                 <Chip
                   label={`Available Quantity: ${product.availableItems}`}
                   color="primary"
-                  style={{margin: "0 10px"}}
+                  style={{ margin: "0 10px" }}
                 />
               </div>
               <Typography

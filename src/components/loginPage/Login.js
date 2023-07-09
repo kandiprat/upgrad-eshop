@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Alert, Avatar, Button, TextField, Typography } from "@mui/material";
+import { Avatar, Button, TextField, Typography, Snackbar, Alert } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -16,6 +16,18 @@ function Login() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+    if (snackbarSeverity === "success") {
+      navigate("/products");
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -38,47 +50,51 @@ function Login() {
         .then(function (response) {
           if (response.data.token) {
             setToken(response.data.token);
-    
+
             // Extract email from the token
             const decodedToken = jwt_decode(response.data.token);
             const userEmail = decodedToken.sub;
 
             // Fetch user details using the email
             axios
-            .get("http://localhost:8080/api/users", {
-              headers: {
-                Authorization: `Bearer ${response.data.token}`,
-              },
-            })
+              .get("http://localhost:8080/api/users", {
+                headers: {
+                  Authorization: `Bearer ${response.data.token}`,
+                },
+              })
               .then(function (usersResponse) {
                 const users = usersResponse.data;
                 const user = users.find((user) => user.email === userEmail);
-                console.log("entered auth users method{}",user.id);
+                console.log("entered auth users method{}", user.id);
                 if (user) {
                   if (user.id) {
                     setUserId(user.id);
-                    console.log("user id is present{}",user.id);
+                    console.log("user id is present{}", user.id);
                   }
                   if (user.roles && user.roles.some((role) => role.name === "ADMIN")) {
                     setIsAdmin(true);
-                    console.log("user id is present{}",user.roles);
+                    console.log("user id is present{}", user.roles);
                   }
                   navigate("/products");
                 } else {
-                  alert("Error: User not found.");
+                  setSnackbarMessage("User not found!");
+                  setSnackbarOpen(true);
+                  setSnackbarSeverity("error");
                 }
               })
               .catch(function (error) {
-                alert("Error: Failed to fetch user details.");
+                setIsAdmin(false);
               });
           }
         })
         .catch(function () {
-          alert("Error: Invalid credentials.");
+          setSnackbarMessage("Username/password is incorrect, please check!");
+          setSnackbarOpen(true);
+          setSnackbarSeverity("error");
         });
     }
-  } 
-    
+  }
+
 
   if (authToken) {
     navigate("/products");
@@ -125,6 +141,21 @@ function Login() {
           >
             Sign In
           </Button>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert
+              elevation={6}
+              variant="filled"
+              onClose={handleSnackbarClose}
+              severity={snackbarSeverity}
+            >
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
           <div className="signupLink">
             <Link to="/signup">Don't have an account? Sign up</Link>
           </div>

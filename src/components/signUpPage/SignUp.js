@@ -1,4 +1,4 @@
-import { Avatar, Button, TextField, Typography } from "@mui/material";
+import { Avatar, Button, TextField, Typography, Snackbar, Alert } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -21,6 +21,17 @@ function SignUp() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [contactNumberError, setContactNumberError] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+    if (snackbarSeverity === "success") {
+      navigate("/login");
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,13 +68,14 @@ function SignUp() {
           contactNumber,
         })
         .then(function (response) {
-          alert(response.data.message);
-          navigate("/login");
+          setSnackbarMessage(response.data.message);
+          setSnackbarOpen(true);
+          setSnackbarSeverity("success");
         })
         .catch(function (error) {
-          alert(
-            "Error: There was an issue in registering the user, please try again later."
-          );
+          setSnackbarMessage("Unable to register the user, please try again.");
+          setSnackbarOpen(true);
+          setSnackbarSeverity("error");
         });
     }
   };
@@ -154,6 +166,21 @@ function SignUp() {
           >
             Sign Up
           </Button>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert
+              elevation={6}
+              variant="filled"
+              onClose={handleSnackbarClose}
+              severity={snackbarSeverity}
+            >
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
           <div className="loginLink">
             <Link to="/login">Already have an account? Sign in</Link>
           </div>
