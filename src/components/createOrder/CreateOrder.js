@@ -59,7 +59,7 @@ function CreateOrder() {
           `http://localhost:8080/api/orders`,
           {
             quantity: state.quantity,
-            user: userId ?? "64a6d39e60c56a645f9228f7",
+            user: userId,
             product: state.id,
             address: currentAddress.id,
           },
@@ -124,7 +124,7 @@ function CreateOrder() {
         state: stateName,
         landmark: landmark,
         zipcode: zipCode,
-        user: userId ?? "64a6d39e60c56a645f9228f7",
+        user: userId,
       };
       axios
         .post(`http://localhost:8080/api/addresses`, addressObj, {

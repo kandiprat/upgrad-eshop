@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# E-commerce Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an e-commerce web application built using React and Material-UI. It provides functionalities such as product listing, product details, user authentication, order placement, and product management.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+Follow these steps to set up and run the project locally:
 
-### `npm start`
+1. Make sure you have Node.js installed on your machine. You can download it from the official website: [Node.js](https://nodejs.org).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Clone the project repository using Git or download the ZIP file and extract it to a local directory.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Open a terminal or command prompt and navigate to the project directory.
 
-### `npm test`
+4. Install the project dependencies by running the following command:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm install
 
-### `npm run build`
+5. Once the dependencies are installed, start the development server by running the following command:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+6. The application should now be running locally at http://localhost:3000.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+7. Make sure your backend code and mongoDB are up and running at  http://localhost:8080 and  http://localhost:27017 respectively.
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ 1. Open your web browser and visit http://localhost:3000 to access the e-commerce web application.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ 2. You can navigate through the different pages using the links and buttons provided.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+ 3. Explore the product listing, view product details, manage addresess, and place orders.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+ 4. If you have admin privileges, you can manage products, including adding, editing, and deleting products.
 
-## Learn More
+## Dependencies
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The project uses the following dependencies:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. React: A JavaScript library for building user interfaces.
+2. Material-UI: A popular React UI framework for creating beautiful and responsive UI components.
+3. axios: A library for making HTTP requests to the backend API.
+4. react-router-dom: A routing library for handling navigation and URL management in React applications.
+5. jwt-decode: To decode auth token to extract user id and roles using email id, which will be used to determine admin previlages.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ All the dependencies are automatically installed during the installation process mentioned earlier.

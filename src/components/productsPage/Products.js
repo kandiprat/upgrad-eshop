@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import NavigationBar from "../navigationBar/NavigationBar";
 import Cards from "../cards/Cards";
 import { FormControl, ToggleButtonGroup, ToggleButton, Grid, InputLabel, MenuItem, Select, Typography} from "@mui/material";
+import {Dialog, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import axios from "axios";
 import { AuthContext } from "../../common/AuthContext";
 import "./Products.css";
+
 
 function Products() {
   const { authToken, isAdmin } = useContext(AuthContext);
@@ -16,6 +18,8 @@ function Products() {
   const [sortBy, setSortBy] = useState("default");
   const [data, setData] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
 
   const triggerDataFetch = () => {
     if (authToken !== null) {
@@ -29,7 +33,7 @@ function Products() {
           setCategoryList(response.data);
         })
         .catch(function () {
-          alert("Error: There was an issue in retrieving categories list.");
+          alert("Unable to retrieve categories list.");
         });
       axios
         .get("http://localhost:8080/api/products", {
@@ -90,22 +94,33 @@ function Products() {
   };
 
   const handleDeleteCall = (id) => {
-    if (window.confirm("Are you sure you want to delete the product?")) {
-      axios
-        .delete(`http://localhost:8080/api/products/${id}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        })
-        .then(function () {
-          triggerDataFetch();
-        })
-        .catch(function (error) {
-          alert(
-            `Please try again later.`
-          );
-        });
-    }
+    setProductIdToDelete(id);
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteConfirmed = () => {
+    axios
+      .delete(`http://localhost:8080/api/products/${productIdToDelete}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then(function () {
+        triggerDataFetch();
+      })
+      .catch(function (error) {
+        alert("Please try again later.");
+      });
+
+    // Reset the confirmation state
+    setShowConfirmation(false);
+    setProductIdToDelete(null);
+  };
+
+  const handleDeleteCancelled = () => {
+    // Reset the confirmation state
+    setShowConfirmation(false);
+    setProductIdToDelete(null);
   };
 
   return (
@@ -165,6 +180,38 @@ function Products() {
                 navigate={navigate}
               />
             ))}
+              <Dialog
+                open={showConfirmation}
+                onClose={handleDeleteCancelled}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Confirm deletion of product!
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Are you sure you want to delete the product?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button 
+                    onClick={handleDeleteConfirmed} 
+                    autoFocus 
+                    variant="contained"
+                    color="primary"
+                  >
+                    OK
+                  </Button>
+                  <Button 
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleDeleteCancelled}
+                  >
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </Dialog>
           </Grid>
         </div>
       ) : (

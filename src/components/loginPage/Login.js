@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { Avatar, Button, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Button, TextField, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../common/AuthContext";
 import NavigationBar from "../navigationBar/NavigationBar";
+import jwt_decode from 'jwt-decode';
 
 import "./Login.css";
 
@@ -37,20 +38,47 @@ function Login() {
         .then(function (response) {
           if (response.data.token) {
             setToken(response.data.token);
+    
+            // Extract email from the token
+            const decodedToken = jwt_decode(response.data.token);
+            const userEmail = decodedToken.sub;
+
+            // Fetch user details using the email
+            axios
+            .get("http://localhost:8080/api/users", {
+              headers: {
+                Authorization: `Bearer ${response.data.token}`,
+              },
+            })
+              .then(function (usersResponse) {
+                const users = usersResponse.data;
+                const user = users.find((user) => user.email === userEmail);
+                console.log("entered auth users method{}",user.id);
+                if (user) {
+                  if (user.id) {
+                    setUserId(user.id);
+                    console.log("user id is present{}",user.id);
+                  }
+                  if (user.roles && user.roles.some((role) => role.name === "ADMIN")) {
+                    setIsAdmin(true);
+                    console.log("user id is present{}",user.roles);
+                  }
+                  navigate("/products");
+                } else {
+                  alert("Error: User not found.");
+                }
+              })
+              .catch(function (error) {
+                alert("Error: Failed to fetch user details.");
+              });
           }
-          if (response.data.id) {
-            setUserId(response.data.id);
-          }
-          if (response.data.roles && response.data.roles.includes("ADMIN")) {
-            setIsAdmin(true);
-          }
-          navigate("/products");
         })
         .catch(function () {
           alert("Error: Invalid credentials.");
         });
     }
-  };
+  } 
+    
 
   if (authToken) {
     navigate("/products");
